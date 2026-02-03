@@ -4421,6 +4421,22 @@ impl IngestExternalFileOptions {
             ffi::rocksdb_ingestexternalfileoptions_set_ingest_behind(self.inner, c_uchar::from(v));
         }
     }
+
+    /// Set to true to hard link external files instead of copying them.
+    ///
+    /// Hard linking is the most efficient option as it avoids data copying
+    /// while preserving the original files. This is useful when you want to
+    /// ingest files that should remain accessible at their original location.
+    ///
+    /// If hard linking fails (e.g., cross-filesystem), the operation will fail
+    /// unless copy fallback behavior is available.
+    ///
+    /// Default: false
+    pub fn set_link_files(&mut self, v: bool) {
+        unsafe {
+            ffi::rocksdb_ingestexternalfileoptions_set_link_files(self.inner, c_uchar::from(v));
+        }
+    }
 }
 
 impl Default for IngestExternalFileOptions {
